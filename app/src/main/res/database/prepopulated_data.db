@@ -1,0 +1,4 @@
+Insert into accounts (id, name, balance) values (1, 'Checking Account', 1500.00, 2, 'UAH', '₴');
+
+Insert into transaction_categories (id, name) values (1, 'Groceries');
+Insert into transaction_categories (id, name) values (2, 'Utilities');
