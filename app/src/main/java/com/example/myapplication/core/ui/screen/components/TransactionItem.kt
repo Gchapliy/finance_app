@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.core.domain.model.Transaction
+import com.example.myapplication.core.domain.model.TransactionType
 import com.example.myapplication.ui.theme.primaryGreen
 import com.example.myapplication.ui.theme.primaryRed
 import java.math.BigDecimal
@@ -75,7 +76,8 @@ fun TransactionItemPreview() {
             createdAt = Instant.now(),
             description = "Groceries",
             amount = -15000,
-            transactionDate = LocalDate.now()
+            transactionDate = LocalDate.now(),
+            transactionType = TransactionType.EXPENSE
         ),
         currencySign = "₴",
         scale = 2

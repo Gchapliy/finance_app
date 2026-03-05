@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myapplication.R
 import com.example.myapplication.core.domain.model.Transaction
+import com.example.myapplication.core.domain.model.TransactionType
 import com.example.myapplication.core.ui.screen.components.BalanceCard
 import com.example.myapplication.core.ui.screen.components.TransactionsHistory
 import com.example.myapplication.core.ui.screen.components.TransparentButton
@@ -97,7 +98,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Groceries",
                             amount = 15000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         ),
                         Transaction(
                             id = 2,
@@ -106,7 +108,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Salary",
                             amount = 500000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         )
                     ),
                     LocalDate.of(2026, 2, 28) to listOf(
@@ -117,7 +120,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = 20000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         ),
                         Transaction(
                             id = 3,
@@ -126,7 +130,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = 20000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         ),
                         Transaction(
                             id = 4,
@@ -135,7 +140,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = -25000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.EXPENSE
                         ),
                         Transaction(
                             id = 4,
@@ -144,7 +150,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = -25000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.EXPENSE
                         ), Transaction(
                             id = 3,
                             accountId = 1,
@@ -152,7 +159,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = 20000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         ),
                         Transaction(
                             id = 4,
@@ -161,7 +169,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = -25000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.EXPENSE
                         ),
                         Transaction(
                             id = 3,
@@ -170,7 +179,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = 20000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.INCOME
                         ),
                         Transaction(
                             id = 4,
@@ -179,7 +189,8 @@ fun MainScreenPreview() {
                             createdAt = Instant.now(),
                             description = "Utilities",
                             amount = -25000,
-                            transactionDate = LocalDate.now()
+                            transactionDate = LocalDate.now(),
+                            transactionType = TransactionType.EXPENSE
                         )
                     )
                 ), "₴", 2
