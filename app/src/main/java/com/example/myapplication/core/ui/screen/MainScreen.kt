@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,28 +21,55 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
+import com.example.myapplication.core.domain.model.Account
 import com.example.myapplication.core.domain.model.Transaction
 import com.example.myapplication.core.domain.model.TransactionType
 import com.example.myapplication.core.ui.screen.components.BalanceCard
 import com.example.myapplication.core.ui.screen.components.TransactionsHistory
 import com.example.myapplication.core.ui.screen.components.TransparentButton
 import com.example.myapplication.core.ui.viewmodel.AccountViewModel
+import com.example.myapplication.core.ui.viewmodel.MainViewModel
 import com.example.myapplication.core.ui.viewmodel.TransactionViewModel
+import com.example.myapplication.core.ui.viewmodel.state.MainUiState
 import java.time.Instant
 import java.time.LocalDate
 
 @Composable
 fun MainScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel(),
     accountViewModel: AccountViewModel = hiltViewModel(),
     transactionViewModel: TransactionViewModel = hiltViewModel(),
     innerPadding: PaddingValues
 ) {
-    val account = accountViewModel.getAccountById(1)
-    val balance by accountViewModel.getAccountBalance(1).collectAsStateWithLifecycle()
-    val transactions by transactionViewModel.getTransactionsForAccount(1)
-        .collectAsStateWithLifecycle()
+    when (val mainState = mainViewModel.mainState.collectAsState()) {
+        MainUiState.Loading -> {
+            // Show loading
+        }
+        MainUiState.Empty -> {
+            Text("No account selected")
+        }
+        is MainUiState.Success -> {
+            val successState = mainState as MainUiState.Success
+            val account = successState.account
+            val transactions = successState.transactions
+            val balance by accountViewModel.getAccountBalance(account.id)
+                .collectAsStateWithLifecycle()
+            MainScreenContent(navController, account, balance, transactions)
+        }
+    }
+}
 
+@Composable
+fun MainScreenContent(
+    navController: NavController,
+    account: Account,
+    balance: Long,
+    transactions: Map<LocalDate, List<Transaction>>
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,12 +93,17 @@ fun MainScreen(
                 .weight(0.15f),
         ) {
             TransparentButton(onClick = {
-//            TODO: Implement navigation to AddTransactionScreen
+                navController.navigate("addTransaction/${account.id}")
             }, width = 200.dp, height = 60.dp, paddingValues = PaddingValues(16.dp)) {
                 Text(stringResource(R.string.add_transaction))
             }
         }
     }
+}
+
+@Composable
+fun MainScreenSkeleton() {
+
 }
 
 @Preview(widthDp = 600, heightDp = 800)

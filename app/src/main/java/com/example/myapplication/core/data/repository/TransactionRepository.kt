@@ -11,12 +11,11 @@ import javax.inject.Singleton
 class TransactionRepository @Inject constructor(
     private val dao: TransactionDao
 ) {
-
     fun getTransactions(): Flow<List<Transaction>> = dao.getAll()
 
     fun getLast30DaysTransactions(accountId: Long, fromDate: LocalDate): Flow<List<Transaction>> {
         return dao.getLast30DaysTransactions(accountId, fromDate)
     }
 
-    suspend fun addTransaction(transaction: Transaction): Unit = dao.insert(transaction)
+    suspend fun insertTransaction(transaction: Transaction): Unit = dao.insert(transaction)
 }

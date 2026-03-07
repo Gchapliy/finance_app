@@ -20,5 +20,5 @@ interface AccountDao {
 """)
     fun getBalance(accountId: Long): Flow<Long>
     @Query("SELECT * FROM accounts WHERE id = :id")
-    fun getAccountById(id: Long): Account
+    fun getAccountById(id: Long): Flow<Account?>
 }

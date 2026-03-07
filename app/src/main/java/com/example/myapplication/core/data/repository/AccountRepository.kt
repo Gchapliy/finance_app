@@ -12,7 +12,7 @@ class AccountRepository @Inject constructor(
 ){
     fun getAccounts(): Flow<List<Account>> = dao.getAllAccounts()
 
-    fun getAccountById(id: Long): Account = dao.getAccountById(id)
+    fun getAccountById(id: Long): Flow<Account?> = dao.getAccountById(id)
 
     fun getBalance(accountId: Long): Flow<Long> = dao.getBalance(accountId)
 }
