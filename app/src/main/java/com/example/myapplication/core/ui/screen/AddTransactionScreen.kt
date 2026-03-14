@@ -17,13 +17,13 @@ fun AddTransactionScreen(
     abstractionViewModel: AddTransactionViewModel = hiltViewModel()
 ) {
     val state by abstractionViewModel.uiState.collectAsStateWithLifecycle()
-    val account = abstractionViewModel.account
+    val account by abstractionViewModel.account.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier.fillMaxSize()) {
         MoneyAmountInput(
             value           = state.amount,
             onValueChange   = { abstractionViewModel.onAmountChanged(it) },
-            currencySymbol  = account.currencySign,
+            currencySymbol  = account?.currencySign ?: "$",
         )
     }
 }

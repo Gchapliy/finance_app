@@ -5,12 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.core.data.repository.AccountRepository
 import com.example.myapplication.core.data.repository.TransactionRepository
+import com.example.myapplication.core.domain.model.Account
 import com.example.myapplication.core.domain.model.Transaction
 import com.example.myapplication.core.domain.model.TransactionType
 import com.example.myapplication.core.ui.viewmodel.state.AddTransactionUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -32,7 +35,9 @@ class AddTransactionViewModel @Inject constructor(
         _uiState.update { it.copy(amount = newAmount) }
     }
 
-    val account = accountRepository.getAccountById(accountId)
+    val account: StateFlow<Account?> = accountRepository.getAccountById(accountId).stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), null
+    )
 
     fun saveTransaction() {
         val current = _uiState.value

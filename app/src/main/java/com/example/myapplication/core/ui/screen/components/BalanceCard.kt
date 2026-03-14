@@ -1,5 +1,7 @@
 package com.example.myapplication.core.ui.screen.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,9 +79,63 @@ fun BalanceCard(total: Long, currencySign: String = "₴", scale: Int) {
     }
 }
 
+@Composable
+fun BalanceCardSkeleton() {
+    val brush = shimmerBrush()
+
+    Card(
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(24.dp)
+        ) {
+            // Label placeholder — mimics "Balance" text
+            Box(
+                modifier = Modifier
+                    .width(60.dp)
+                    .height(12.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(brush)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Row: balance + add button
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Headline balance placeholder
+                Box(
+                    modifier = Modifier
+                        .width(160.dp)
+                        .height(36.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(brush)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                // Add button placeholder
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(brush)
+                )
+            }
+        }
+    }
+}
+
 
 @Preview
 @Composable
 fun BalanceCardPreview() {
     BalanceCard(total = 123456, currencySign = "₴", scale = 2)
+}
+
+@Preview
+@Composable
+fun BalanceCardSkeletonPreview() {
+    BalanceCardSkeleton()
 }

@@ -19,8 +19,11 @@ val primaryRed = Color(0xFFB00020)
 val primaryGreen = Color(0xFF81c784)
 
 // MoneyInput colors
-val colorBorderIdle    = Color(0xFFBDBDBD)
+val colorBorderIdle = Color(0xFFBDBDBD)
 val colorBorderFocused = Color(0xFF1A1A2E)
 val colorCurrencyLabel = Color(0xFF9E9E9E)
-val colorDigits        = Color(0xFF1A1A2E)
-val colorHint          = Color(0xFFBDBDBD)
+val colorDigits = Color(0xFF1A1A2E)
+val colorHint = Color(0xFFBDBDBD)
+
+val colorShimmerMedium = Color(0xFFBDBDBD)
+val colorShimmerLight = Color(0xFFD4D4D4)

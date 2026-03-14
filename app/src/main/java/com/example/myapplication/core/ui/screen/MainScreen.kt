@@ -2,6 +2,7 @@ package com.example.myapplication.core.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,20 +19,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.core.domain.model.Account
 import com.example.myapplication.core.domain.model.Transaction
 import com.example.myapplication.core.domain.model.TransactionType
 import com.example.myapplication.core.ui.screen.components.BalanceCard
+import com.example.myapplication.core.ui.screen.components.BalanceCardSkeleton
 import com.example.myapplication.core.ui.screen.components.TransactionsHistory
+import com.example.myapplication.core.ui.screen.components.TransactionsHistorySkeleton
 import com.example.myapplication.core.ui.screen.components.TransparentButton
+import com.example.myapplication.core.ui.screen.components.shimmerBrush
 import com.example.myapplication.core.ui.viewmodel.AccountViewModel
 import com.example.myapplication.core.ui.viewmodel.MainViewModel
 import com.example.myapplication.core.ui.viewmodel.TransactionViewModel
@@ -47,7 +53,7 @@ fun MainScreen(
 ) {
     when (val mainState = mainViewModel.mainState.collectAsState()) {
         MainUiState.Loading -> {
-            // Show loading
+            MainScreenSkeleton()
         }
         MainUiState.Empty -> {
             Text("No account selected")
@@ -103,7 +109,40 @@ fun MainScreenContent(
 
 @Composable
 fun MainScreenSkeleton() {
+    val brush = shimmerBrush()
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .weight(0.85f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            BalanceCardSkeleton()
+            TransactionsHistorySkeleton()
+        }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .weight(0.15f),
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(60.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(brush)
+            )
+        }
+    }
 }
 
 @Preview(widthDp = 600, heightDp = 800)
@@ -243,5 +282,11 @@ fun MainScreenPreview() {
             }
         }
     }
+}
+
+@Preview(widthDp = 600, heightDp = 800)
+@Composable
+fun  MainScreenSkeletonPreview() {
+    MainScreenSkeleton()
 }
 

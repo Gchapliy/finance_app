@@ -2,20 +2,14 @@ package com.example.myapplication.core.config
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myapplication.core.data.dao.AccountDao
 import com.example.myapplication.core.data.dao.TransactionCategoryDao
 import com.example.myapplication.core.data.dao.TransactionDao
-import com.example.myapplication.core.domain.model.TransactionCategory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
 @Module

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.example.myapplication.core.domain.model.Account
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface AccountDao {
