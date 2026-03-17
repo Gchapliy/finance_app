@@ -1,12 +1,15 @@
 package com.example.myapplication.core.ui.viewmodel.state
 
-import java.time.LocalDate
+import com.example.myapplication.core.domain.model.Account
+import com.example.myapplication.core.domain.model.TransactionCategory
 
-data class AddTransactionUiState(
-    val amount: String = "",
-    val description: String = "",
-    val categoryId: Long? = null,
-    val date: LocalDate = LocalDate.now(),
-    val isSaving: Boolean = false,
-    val error: String? = null
-)
+sealed interface AddTransactionUIState {
+    data object Loading: AddTransactionUIState
+
+    data class Success(
+        val account: Account,
+        val transactionCategories: List<TransactionCategory>
+    ): AddTransactionUIState
+
+    data object Error: AddTransactionUIState
+}

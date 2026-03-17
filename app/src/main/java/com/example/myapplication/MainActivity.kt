@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.myapplication.core.ui.screen.AddTransactionScreen
 import com.example.myapplication.core.ui.screen.MainScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -48,7 +50,11 @@ fun EntryPoint(innerPadding: PaddingValues) {
             )
         }
 
-        composable("addTransaction") {
+        composable(
+            route = "addTransaction/{accountId}",
+            arguments = listOf(
+                navArgument("accountId") { type = NavType.LongType })
+        ) {
             AddTransactionScreen(
                 navController
             )
