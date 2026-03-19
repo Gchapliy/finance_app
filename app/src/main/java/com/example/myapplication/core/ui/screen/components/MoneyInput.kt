@@ -1,6 +1,7 @@
 package com.example.myapplication.core.ui.screen.components
 
 import android.icu.text.DecimalFormatSymbols
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
@@ -19,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
@@ -38,14 +43,16 @@ import com.example.myapplication.ui.theme.colorHint
 import java.util.Locale
 
 @Composable
-fun MoneyAmountInput(value: String,
-                     onValueChange: (String) -> Unit,
-                     modifier: Modifier = Modifier,
-                     currencySymbol: String = "₴",
-                     hint: String = "0.00",
-                     digitFontSize: androidx.compose.ui.unit.TextUnit = 48.sp,
-                     borderWidth: Dp = 2.dp,
-                     maxDecimalPlaces: Int = 2,) {
+fun MoneyAmountInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    currencySymbol: String = "₴",
+    hint: String = "0.00",
+    digitFontSize: androidx.compose.ui.unit.TextUnit = 48.sp,
+    borderWidth: Dp = 2.dp,
+    maxDecimalPlaces: Int = 2,
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
@@ -66,7 +73,7 @@ fun MoneyAmountInput(value: String,
                 drawLine(
                     color = borderColor,
                     start = Offset(0f, y),
-                    end   = Offset(size.width, y),
+                    end = Offset(size.width, y),
                     strokeWidth = bw.toPx()
                 )
             }
@@ -75,7 +82,7 @@ fun MoneyAmountInput(value: String,
     ) {
         // ── Currency symbol ───────────────────────────────────────────────────
         Text(
-            text  = currencySymbol,
+            text = currencySymbol,
             style = TextStyle(
                 fontSize = digitFontSize * 0.55f,
                 fontWeight = FontWeight.Light,
@@ -93,32 +100,32 @@ fun MoneyAmountInput(value: String,
                 val filtered = filterMoneyInput(raw, decimalSeparator, maxDecimalPlaces)
                 onValueChange(filtered)
             },
-            modifier           = Modifier
+            modifier = Modifier
                 .weight(1f)
                 .alignByBaseline(),
             textStyle = TextStyle(
-                fontSize   = digitFontSize,
+                fontSize = digitFontSize,
                 fontWeight = FontWeight.SemiBold,
-                color      = colorDigits,
-                textAlign  = TextAlign.Start,
+                color = colorDigits,
+                textAlign = TextAlign.Start,
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
             ),
-            singleLine         = true,
-            cursorBrush        = SolidColor(colorBorderFocused),
-            interactionSource  = interactionSource,
-            decorationBox      = { innerTextField ->
+            singleLine = true,
+            cursorBrush = SolidColor(colorBorderFocused),
+            interactionSource = interactionSource,
+            decorationBox = { innerTextField ->
                 Box {
                     // Hint / placeholder
                     if (value.isEmpty()) {
                         Text(
-                            text  = hint,
+                            text = hint,
                             style = TextStyle(
-                                fontSize   = digitFontSize,
+                                fontSize = digitFontSize,
                                 fontWeight = FontWeight.SemiBold,
-                                color      = colorHint,
-                                textAlign  = TextAlign.Start,
+                                color = colorHint,
+                                textAlign = TextAlign.Start,
                             )
                         )
                     }
@@ -162,6 +169,35 @@ private fun filterMoneyInput(
     }
 }
 
+@Composable
+fun MoneyAmountInputSkeleton() {
+    val brush = shimmerBrush()
+
+    Row(modifier = Modifier.fillMaxWidth()
+        .drawBehind {
+            // Draw ONLY the bottom border
+            val y = size.height
+            drawLine(
+                color = colorBorderIdle,
+                start = Offset(0f, y),
+                end = Offset(size.width, y),
+                strokeWidth = (2.dp * 0.75f).toPx()
+            )
+        }
+        .padding(bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start) {
+        Box(
+            modifier = Modifier
+                .width(140.dp)
+                .height(55.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(brush)
+        )
+    }
+
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun MoneyAmountInputPreview() {
@@ -176,10 +212,26 @@ private fun MoneyAmountInputPreview() {
     ) {
         // UAH – integers only
         MoneyAmountInput(
-            value           = amount,
-            onValueChange   = { amount = it },
-            currencySymbol  = "₴",
-            hint            = "0.00",
+            value = amount,
+            onValueChange = { amount = it },
+            currencySymbol = "₴",
+            hint = "0.00",
         )
+    }
+}
+
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun MoneyAmountInputSkeletonPreview() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp, vertical = 48.dp),
+        verticalArrangement = Arrangement.spacedBy(40.dp)
+    ) {
+        // UAH – integers only
+        MoneyAmountInputSkeleton()
     }
 }

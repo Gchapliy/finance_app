@@ -73,34 +73,34 @@ data class ExpenseCategory(
 
 // Sample predefined categories – replace / extend freely
 val defaultCategories: List<ExpenseCategory> = listOf(
-    ExpenseCategory("food",        "🍔", "Food",        usageCount = 42),
-    ExpenseCategory("transport",   "🚌", "Transport",   usageCount = 38),
-    ExpenseCategory("groceries",   "🛒", "Groceries",   usageCount = 35),
-    ExpenseCategory("health",      "💊", "Health",      usageCount = 20),
-    ExpenseCategory("coffee",      "☕", "Coffee",      usageCount = 19),
-    ExpenseCategory("rent",        "🏠", "Rent",        usageCount = 12),
-    ExpenseCategory("clothing",    "👗", "Clothing",    usageCount = 10),
-    ExpenseCategory("entertainment","🎬","Entertainment",usageCount = 9),
-    ExpenseCategory("subscriptions","📱","Subscriptions",usageCount = 8),
-    ExpenseCategory("gym",         "🏋️", "Gym",         usageCount = 7),
-    ExpenseCategory("utilities",   "💡", "Utilities",   usageCount = 6),
-    ExpenseCategory("travel",      "✈️", "Travel",      usageCount = 5),
-    ExpenseCategory("education",   "📚", "Education",   usageCount = 4),
-    ExpenseCategory("gifts",       "🎁", "Gifts",       usageCount = 3),
-    ExpenseCategory("pets",        "🐾", "Pets",        usageCount = 2),
+    ExpenseCategory("food", "🍔", "Food", usageCount = 42),
+    ExpenseCategory("transport", "🚌", "Transport", usageCount = 38),
+    ExpenseCategory("groceries", "🛒", "Groceries", usageCount = 35),
+    ExpenseCategory("health", "💊", "Health", usageCount = 20),
+    ExpenseCategory("coffee", "☕", "Coffee", usageCount = 19),
+    ExpenseCategory("rent", "🏠", "Rent", usageCount = 12),
+    ExpenseCategory("clothing", "👗", "Clothing", usageCount = 10),
+    ExpenseCategory("entertainment", "🎬", "Entertainment", usageCount = 9),
+    ExpenseCategory("subscriptions", "📱", "Subscriptions", usageCount = 8),
+    ExpenseCategory("gym", "🏋️", "Gym", usageCount = 7),
+    ExpenseCategory("utilities", "💡", "Utilities", usageCount = 6),
+    ExpenseCategory("travel", "✈️", "Travel", usageCount = 5),
+    ExpenseCategory("education", "📚", "Education", usageCount = 4),
+    ExpenseCategory("gifts", "🎁", "Gifts", usageCount = 3),
+    ExpenseCategory("pets", "🐾", "Pets", usageCount = 2),
 )
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 
-private val BgSurface      = Color(0xFFF7F7F8)
-private val BgCard         = Color(0xFFFFFFFF)
-private val AccentInk      = Color(0xFF1A1A2E)
-private val AccentPrimary  = Color(0xFF1A1A2E)
-private val ChipSelected   = Color(0xFF1A1A2E)
+private val BgSurface = Color(0xFFF7F7F8)
+private val BgCard = Color(0xFFFFFFFF)
+private val AccentInk = Color(0xFF1A1A2E)
+private val AccentPrimary = Color(0xFF1A1A2E)
+private val ChipSelected = Color(0xFF1A1A2E)
 private val ChipUnselected = Color(0xFFF0F0F2)
-private val BorderColor    = Color(0xFFE2E2E6)
-private val HintColor      = Color(0xFFAAAAAF)
-private val SearchBg       = Color(0xFFF0F0F2)
+private val BorderColor = Color(0xFFE2E2E6)
+private val HintColor = Color(0xFFAAAAAF)
+private val SearchBg = Color(0xFFF0F0F2)
 
 // ─── Main composable ──────────────────────────────────────────────────────────
 
@@ -154,8 +154,10 @@ fun CategoryChooser(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(if (expanded) RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                else RoundedCornerShape(16.dp))
+                .clip(
+                    if (expanded) RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    else RoundedCornerShape(16.dp)
+                )
                 .background(BgCard)
                 .border(
                     width = 1.dp,
@@ -216,7 +218,7 @@ fun CategoryChooser(
             enter = expandVertically(
                 animationSpec = tween(320, easing = FastOutSlowInEasing)
             ) + fadeIn(tween(200)),
-            exit  = shrinkVertically(
+            exit = shrinkVertically(
                 animationSpec = tween(240, easing = FastOutSlowInEasing)
             ) + fadeOut(tween(150))
         ) {
@@ -246,9 +248,9 @@ fun CategoryChooser(
                 ) {
                     items(popularCategories, key = { it.id }) { cat ->
                         CategoryChip(
-                            category  = cat,
-                            selected  = selectedCategory?.id == cat.id,
-                            onClick   = {
+                            category = cat,
+                            selected = selectedCategory?.id == cat.id,
+                            onClick = {
                                 onCategorySelected(cat)
                                 expanded = false
                                 searchQuery = ""
@@ -264,10 +266,10 @@ fun CategoryChooser(
                 Spacer(Modifier.height(10.dp))
 
                 SearchField(
-                    query       = searchQuery,
+                    query = searchQuery,
                     onQueryChange = { searchQuery = it },
                     focusRequester = searchFocusRequester,
-                    modifier    = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp)
                 )
 
                 // Search results
@@ -283,7 +285,7 @@ fun CategoryChooser(
                             SearchResultRow(
                                 category = cat,
                                 selected = selectedCategory?.id == cat.id,
-                                onClick  = {
+                                onClick = {
                                     onCategorySelected(cat)
                                     expanded = false
                                     searchQuery = ""
@@ -324,13 +326,13 @@ fun CategoryChooser(
                 Spacer(Modifier.height(10.dp))
 
                 NewCategoryRow(
-                    value    = newCategoryText,
+                    value = newCategoryText,
                     onChange = { newCategoryText = it },
                     onConfirm = {
                         val trimmed = newCategoryText.trim()
                         if (trimmed.isNotEmpty()) {
                             val newCat = ExpenseCategory(
-                                id    = trimmed.lowercase().replace(" ", "_"),
+                                id = trimmed.lowercase().replace(" ", "_"),
                                 emoji = "🏷️",
                                 label = trimmed,
                             )
@@ -353,11 +355,11 @@ fun CategoryChooser(
 @Composable
 private fun SectionLabel(text: String, modifier: Modifier = Modifier) {
     Text(
-        text     = text.uppercase(),
-        style    = TextStyle(
-            fontSize   = 10.sp,
+        text = text.uppercase(),
+        style = TextStyle(
+            fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
-            color      = HintColor,
+            color = HintColor,
             letterSpacing = 1.2.sp,
         ),
         modifier = modifier
@@ -370,8 +372,8 @@ private fun CategoryChip(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-    val bgColor  = if (selected) ChipSelected else ChipUnselected
-    val txtColor = if (selected) Color.White   else AccentInk
+    val bgColor = if (selected) ChipSelected else ChipUnselected
+    val txtColor = if (selected) Color.White else AccentInk
 
     Row(
         modifier = Modifier
@@ -388,11 +390,11 @@ private fun CategoryChip(
     ) {
         Text(text = category.emoji, fontSize = 15.sp)
         Text(
-            text  = category.label,
+            text = category.label,
             style = TextStyle(
-                fontSize   = 14.sp,
+                fontSize = 14.sp,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                color      = txtColor
+                color = txtColor
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -408,22 +410,22 @@ private fun SearchField(
     modifier: Modifier = Modifier,
 ) {
     BasicTextField(
-        value     = query,
+        value = query,
         onValueChange = onQueryChange,
-        modifier  = modifier
+        modifier = modifier
             .fillMaxWidth()
             .focusRequester(focusRequester),
         textStyle = TextStyle(
-            fontSize   = 15.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Normal,
-            color      = AccentInk
+            color = AccentInk
         ),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction      = ImeAction.Search
+            imeAction = ImeAction.Search
         ),
-        singleLine   = true,
-        cursorBrush  = SolidColor(AccentPrimary),
+        singleLine = true,
+        cursorBrush = SolidColor(AccentPrimary),
         decorationBox = { inner ->
             Row(
                 modifier = Modifier
@@ -488,11 +490,11 @@ private fun SearchResultRow(
         Text(text = category.emoji, fontSize = 18.sp)
         Spacer(Modifier.width(12.dp))
         Text(
-            text  = category.label,
+            text = category.label,
             style = TextStyle(
-                fontSize   = 15.sp,
+                fontSize = 15.sp,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                color      = if (selected) AccentPrimary else AccentInk
+                color = if (selected) AccentPrimary else AccentInk
             ),
             modifier = Modifier.weight(1f)
         )
@@ -514,20 +516,20 @@ private fun NewCategoryRow(
     modifier: Modifier = Modifier,
 ) {
     BasicTextField(
-        value     = value,
+        value = value,
         onValueChange = onChange,
-        modifier  = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         textStyle = TextStyle(
-            fontSize   = 15.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Normal,
-            color      = AccentInk
+            color = AccentInk
         ),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction      = ImeAction.Done
+            imeAction = ImeAction.Done
         ),
-        singleLine   = true,
-        cursorBrush  = SolidColor(AccentPrimary),
+        singleLine = true,
+        cursorBrush = SolidColor(AccentPrimary),
         decorationBox = { inner ->
             Row(
                 modifier = Modifier
@@ -537,7 +539,11 @@ private fun NewCategoryRow(
                     .padding(start = 14.dp, top = 4.dp, bottom = 4.dp, end = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(Modifier.weight(1f).padding(vertical = 8.dp)) {
+                Box(
+                    Modifier
+                        .weight(1f)
+                        .padding(vertical = 8.dp)
+                ) {
                     if (value.isEmpty()) {
                         Text(
                             "Type a new category name…",
@@ -548,8 +554,8 @@ private fun NewCategoryRow(
                 }
                 AnimatedVisibility(
                     visible = value.isNotBlank(),
-                    enter   = scaleIn() + fadeIn(),
-                    exit    = scaleOut() + fadeOut()
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
                 ) {
                     Box(
                         modifier = Modifier
@@ -578,7 +584,20 @@ private fun NewCategoryRow(
 }
 
 
-// ─── Usage example ────────────────────────────────────────────────────────────
+@Composable
+fun CategoryChooserSkeleton() {
+    val brush = shimmerBrush()
+
+    Row() {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(brush)
+        )
+    }
+}
 
 
 @Preview(showBackground = true, backgroundColor = 0xFFF7F7F8)
@@ -593,16 +612,28 @@ private fun CategoryChooserPreview() {
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        // Money input (from MoneyAmountInput.kt)
-        var amount by remember { mutableStateOf("") }
-        MoneyAmountInput(value = amount, onValueChange = { amount = it })
 
         // Category chooser
         CategoryChooser(
-            categories         = categories,
-            selectedCategory   = selected,
+            categories = categories,
+            selectedCategory = selected,
             onCategorySelected = { selected = it },
-            onCategoryCreated  = { categories.add(it) },
+            onCategoryCreated = { categories.add(it) },
         )
+    }
+}
+
+
+@Preview(showBackground = true, backgroundColor = 0xFFF7F7F8)
+@Composable
+private fun CategoryChooserSkeletonPreview() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        // Category chooser
+        CategoryChooserSkeleton()
     }
 }
