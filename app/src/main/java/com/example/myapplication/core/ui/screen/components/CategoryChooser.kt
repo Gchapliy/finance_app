@@ -61,68 +61,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.core.domain.model.TransactionCategory
+import com.example.myapplication.ui.theme.AccentInk
+import com.example.myapplication.ui.theme.AccentPrimary
+import com.example.myapplication.ui.theme.BgCard
+import com.example.myapplication.ui.theme.BgSurface
+import com.example.myapplication.ui.theme.BorderColor
+import com.example.myapplication.ui.theme.ChipSelected
+import com.example.myapplication.ui.theme.ChipUnselected
+import com.example.myapplication.ui.theme.HintColor
+import com.example.myapplication.ui.theme.SearchBg
+import kotlin.collections.emptyList
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
-data class ExpenseCategory(
-    val id: String,
-    val emoji: String,
-    val label: String,
-    val usageCount: Int = 0, // higher → shown first in popular chips
-)
-
-// Sample predefined categories – replace / extend freely
-val defaultCategories: List<ExpenseCategory> = listOf(
-    ExpenseCategory("food", "🍔", "Food", usageCount = 42),
-    ExpenseCategory("transport", "🚌", "Transport", usageCount = 38),
-    ExpenseCategory("groceries", "🛒", "Groceries", usageCount = 35),
-    ExpenseCategory("health", "💊", "Health", usageCount = 20),
-    ExpenseCategory("coffee", "☕", "Coffee", usageCount = 19),
-    ExpenseCategory("rent", "🏠", "Rent", usageCount = 12),
-    ExpenseCategory("clothing", "👗", "Clothing", usageCount = 10),
-    ExpenseCategory("entertainment", "🎬", "Entertainment", usageCount = 9),
-    ExpenseCategory("subscriptions", "📱", "Subscriptions", usageCount = 8),
-    ExpenseCategory("gym", "🏋️", "Gym", usageCount = 7),
-    ExpenseCategory("utilities", "💡", "Utilities", usageCount = 6),
-    ExpenseCategory("travel", "✈️", "Travel", usageCount = 5),
-    ExpenseCategory("education", "📚", "Education", usageCount = 4),
-    ExpenseCategory("gifts", "🎁", "Gifts", usageCount = 3),
-    ExpenseCategory("pets", "🐾", "Pets", usageCount = 2),
-)
-
-// ─── Palette ──────────────────────────────────────────────────────────────────
-
-private val BgSurface = Color(0xFFF7F7F8)
-private val BgCard = Color(0xFFFFFFFF)
-private val AccentInk = Color(0xFF1A1A2E)
-private val AccentPrimary = Color(0xFF1A1A2E)
-private val ChipSelected = Color(0xFF1A1A2E)
-private val ChipUnselected = Color(0xFFF0F0F2)
-private val BorderColor = Color(0xFFE2E2E6)
-private val HintColor = Color(0xFFAAAAAF)
-private val SearchBg = Color(0xFFF0F0F2)
-
-// ─── Main composable ──────────────────────────────────────────────────────────
-
-/**
- * Expandable category chooser widget.
- *
- * Collapsed state  → shows selected category name (or placeholder) + chevron.
- * Expanded state   → popular chips row + search field + "add new" input below.
- *
- * @param categories        Full list of available categories.
- * @param selectedCategory  Currently selected category (null = none).
- * @param onCategorySelected Called when a category is chosen (chip tap, search result tap,
- *                           or new category confirmed).
- * @param onCategoryCreated  Optional: called when user creates a brand-new category.
- */
 @Composable
 fun CategoryChooser(
-    categories: List<ExpenseCategory>,
-    selectedCategory: ExpenseCategory?,
-    onCategorySelected: (ExpenseCategory) -> Unit,
-    onCategoryCreated: ((ExpenseCategory) -> Unit)? = null,
     modifier: Modifier = Modifier,
+    categories: List<TransactionCategory>,
+    selectedCategory: TransactionCategory?,
+    onCategorySelected: (TransactionCategory) -> Unit,
+    onCategoryCreated: ((TransactionCategory) -> Unit)? = null,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
@@ -138,7 +96,7 @@ fun CategoryChooser(
     val searchResults = remember(searchQuery, categories) {
         if (searchQuery.isBlank()) emptyList()
         else categories.filter {
-            it.label.contains(searchQuery, ignoreCase = true)
+            it.name.contains(searchQuery, ignoreCase = true)
         }
     }
 
@@ -149,7 +107,6 @@ fun CategoryChooser(
     )
 
     Column(modifier = modifier.fillMaxWidth()) {
-
         // ── Collapsed / header row ─────────────────────────────────────────
         Row(
             modifier = Modifier
@@ -177,12 +134,12 @@ fun CategoryChooser(
         ) {
             if (selectedCategory != null) {
                 Text(
-                    text = selectedCategory.emoji,
+                    text = selectedCategory.icon,
                     fontSize = 20.sp,
                     modifier = Modifier.padding(end = 10.dp)
                 )
                 Text(
-                    text = selectedCategory.label,
+                    text = selectedCategory.name,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
@@ -331,10 +288,10 @@ fun CategoryChooser(
                     onConfirm = {
                         val trimmed = newCategoryText.trim()
                         if (trimmed.isNotEmpty()) {
-                            val newCat = ExpenseCategory(
-                                id = trimmed.lowercase().replace(" ", "_"),
-                                emoji = "🏷️",
-                                label = trimmed,
+                            val newCat = TransactionCategory(
+                                icon = "🏷️",
+                                name = trimmed,
+                                usageCount = 1
                             )
                             onCategoryCreated?.invoke(newCat)
                             onCategorySelected(newCat)
@@ -368,7 +325,7 @@ private fun SectionLabel(text: String, modifier: Modifier = Modifier) {
 
 @Composable
 private fun CategoryChip(
-    category: ExpenseCategory,
+    category: TransactionCategory,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -388,9 +345,9 @@ private fun CategoryChip(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Text(text = category.emoji, fontSize = 15.sp)
+        Text(text = category.icon, fontSize = 15.sp)
         Text(
-            text = category.label,
+            text = category.name,
             style = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
@@ -471,7 +428,7 @@ private fun SearchField(
 
 @Composable
 private fun SearchResultRow(
-    category: ExpenseCategory,
+    category: TransactionCategory,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -487,10 +444,10 @@ private fun SearchResultRow(
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = category.emoji, fontSize = 18.sp)
+        Text(text = category.icon, fontSize = 18.sp)
         Spacer(Modifier.width(12.dp))
         Text(
-            text = category.label,
+            text = category.name,
             style = TextStyle(
                 fontSize = 15.sp,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
@@ -603,8 +560,8 @@ fun CategoryChooserSkeleton() {
 @Preview(showBackground = true, backgroundColor = 0xFFF7F7F8)
 @Composable
 private fun CategoryChooserPreview() {
-    val categories = remember { mutableStateListOf(*defaultCategories.toTypedArray()) }
-    var selected by remember { mutableStateOf<ExpenseCategory?>(null) }
+    val categories = remember { mutableStateListOf<TransactionCategory>() }
+    var selected by remember { mutableStateOf<TransactionCategory?>(null) }
 
     Column(
         modifier = Modifier

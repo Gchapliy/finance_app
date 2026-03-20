@@ -12,5 +12,5 @@ data class TransactionCategory (
 
     val icon: String, // emoji or icon name
 
-    val colorHex: String
+    val usageCount: Int
 )

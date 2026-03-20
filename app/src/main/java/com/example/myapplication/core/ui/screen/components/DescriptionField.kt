@@ -35,25 +35,13 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.core.domain.model.TransactionCategory
+import com.example.myapplication.ui.theme.AccentInk
+import com.example.myapplication.ui.theme.BorderFocused
+import com.example.myapplication.ui.theme.BorderIdle
+import com.example.myapplication.ui.theme.HintColor
 
 
-// ─── Shared palette (keep in sync with MoneyAmountInput / CategoryChooser) ────
-private val AccentInk     = Color(0xFF1A1A2E)
-private val HintColor     = Color(0xFFAAAAAF)
-private val BorderIdle    = Color(0xFFBDBDBD)
-private val BorderFocused = Color(0xFF1A1A2E)
-
-// ─── Description field ────────────────────────────────────────────────────────
-
-/**
- * Multi-line description input that shares the same bottom-border-only style
- * as [MoneyAmountInput].
- *
- * @param value         Current text value.
- * @param onValueChange Called on every keystroke.
- * @param hint          Placeholder text.
- * @param maxLines      Max visible lines before it scrolls (default 4).
- */
 @Composable
 fun DescriptionField(
     value: String,
@@ -192,10 +180,10 @@ fun CreateButton(
 fun ExpenseForm(
     amount: String,
     onAmountChange: (String) -> Unit,
-    categories: List<ExpenseCategory>,
-    selectedCategory: ExpenseCategory?,
-    onCategorySelected: (ExpenseCategory) -> Unit,
-    onCategoryCreated: (ExpenseCategory) -> Unit,
+    categories: List<TransactionCategory>,
+    selectedCategory: TransactionCategory?,
+    onCategorySelected: (TransactionCategory) -> Unit,
+    onCategoryCreated: (TransactionCategory) -> Unit,
     description: String,
     onDescriptionChange: (String) -> Unit,
     onCreateClick: () -> Unit,
@@ -235,9 +223,9 @@ fun ExpenseForm(
 @Preview(showBackground = true, backgroundColor = 0xFFF7F7F8)
 @Composable
 private fun ExpenseFormPreview() {
-    val cats = remember { mutableStateListOf(*defaultCategories.toTypedArray()) }
+    val cats = remember { mutableStateListOf<TransactionCategory>() }
     var amount by remember { mutableStateOf("") }
-    var cat    by remember { mutableStateOf<ExpenseCategory?>(null) }
+    var cat    by remember { mutableStateOf<TransactionCategory?>(null) }
     var desc   by remember { mutableStateOf("") }
 
     Box(Modifier.padding(24.dp)) {

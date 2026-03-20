@@ -18,12 +18,24 @@ val tertiary = Color(0xFFF7F7F7)
 val primaryRed = Color(0xFFB00020)
 val primaryGreen = Color(0xFF81c784)
 
-// MoneyInput colors
+// Main components colors
 val colorBorderIdle = Color(0xFFBDBDBD)
 val colorBorderFocused = Color(0xFF1A1A2E)
 val colorCurrencyLabel = Color(0xFF9E9E9E)
 val colorDigits = Color(0xFF1A1A2E)
 val colorHint = Color(0xFFBDBDBD)
+val BgSurface = Color(0xFFF7F7F8)
+val BgCard = Color(0xFFFFFFFF)
+val AccentInk = Color(0xFF1A1A2E)
+val AccentPrimary = Color(0xFF1A1A2E)
+val ChipSelected = Color(0xFF1A1A2E)
+val ChipUnselected = Color(0xFFF0F0F2)
+val BorderColor = Color(0xFFE2E2E6)
+val HintColor = Color(0xFFAAAAAF)
+val SearchBg = Color(0xFFF0F0F2)
+val BorderIdle    = Color(0xFFBDBDBD)
+val BorderFocused = Color(0xFF1A1A2E)
 
+// Shimmer colors
 val colorShimmerMedium = Color(0xFFBDBDBD)
 val colorShimmerLight = Color(0xFFD4D4D4)
