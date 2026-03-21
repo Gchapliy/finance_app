@@ -25,7 +25,7 @@ object DatabaseModule {
             "expenses_db"
         )
             // TODO: Check if this is the correct way to pre-populate the database with default categories
-            .createFromAsset("database/prepopulated_data.db")
+            .createFromAsset("database/expenses_db.db")
 //            .addCallback(object : RoomDatabase.Callback() {
 //                override fun onCreate(db: SupportSQLiteDatabase) {
 //                    super.onCreate(db)

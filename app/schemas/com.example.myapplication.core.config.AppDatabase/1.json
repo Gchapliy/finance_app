@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35c6228c22aaba47217ef9ea8d95e463",
+    "identityHash": "7593b3de574552be68b1ed04264dd394",
     "entities": [
       {
         "tableName": "transactions",
@@ -125,7 +125,7 @@
       },
       {
         "tableName": "transaction_categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT NOT NULL, `colorHex` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `icon` TEXT NOT NULL, `usageCount` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -146,9 +146,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "colorHex",
-            "columnName": "colorHex",
-            "affinity": "TEXT",
+            "fieldPath": "usageCount",
+            "columnName": "usageCount",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -210,7 +210,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35c6228c22aaba47217ef9ea8d95e463')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7593b3de574552be68b1ed04264dd394')"
     ]
   }
 }

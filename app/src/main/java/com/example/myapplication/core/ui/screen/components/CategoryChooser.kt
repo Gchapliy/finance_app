@@ -76,11 +76,11 @@ import kotlin.collections.emptyList
 
 @Composable
 fun CategoryChooser(
-    modifier: Modifier = Modifier,
     categories: List<TransactionCategory>,
     selectedCategory: TransactionCategory?,
     onCategorySelected: (TransactionCategory) -> Unit,
     onCategoryCreated: ((TransactionCategory) -> Unit)? = null,
+    modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }

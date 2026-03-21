@@ -21,12 +21,12 @@ import com.example.myapplication.core.domain.model.Account
 import com.example.myapplication.core.domain.model.TransactionCategory
 import com.example.myapplication.core.ui.screen.components.CategoryChooser
 import com.example.myapplication.core.ui.screen.components.CategoryChooserSkeleton
-import com.example.myapplication.core.ui.screen.components.ExpenseCategory
 import com.example.myapplication.core.ui.screen.components.MoneyAmountInput
 import com.example.myapplication.core.ui.screen.components.MoneyAmountInputSkeleton
 import com.example.myapplication.core.ui.viewmodel.AddTransactionViewModel
 import com.example.myapplication.core.ui.viewmodel.state.AddTransactionUIState
 import com.example.myapplication.core.ui.viewmodel.state.TransactionState
+import kotlin.collections.emptyList
 
 @Composable
 fun AddTransactionScreen(
@@ -70,7 +70,7 @@ fun AddTransactionScreenContent(
     account: Account,
     categories: List<TransactionCategory>
 ) {
-    var selectedCategory by remember { mutableStateOf<ExpenseCategory?>(null) }
+    var selectedCategory by remember { mutableStateOf<TransactionCategory?>(null) }
 
     Column(
         modifier = Modifier
@@ -86,7 +86,7 @@ fun AddTransactionScreenContent(
         )
 //        TODO: fix list of categories from db and function addCategory
         CategoryChooser(
-            emptyList(),
+            categories,
             selectedCategory,
             { selectedCategory = it })
     }
@@ -109,7 +109,7 @@ fun AddTransactionScreenSkeleton() {
 @Preview(showBackground = true)
 @Composable
 private fun AddTransactionScreenContentPreview() {
-    var selectedCategory by remember { mutableStateOf<ExpenseCategory?>(null) }
+    var selectedCategory by remember { mutableStateOf<TransactionCategory?>(null) }
 
     Column(
         modifier = Modifier
