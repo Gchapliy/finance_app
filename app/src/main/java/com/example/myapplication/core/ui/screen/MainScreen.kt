@@ -51,7 +51,9 @@ fun MainScreen(
     transactionViewModel: TransactionViewModel = hiltViewModel(),
     innerPadding: PaddingValues
 ) {
-    when (val mainState = mainViewModel.mainState.collectAsState()) {
+    val mainState by mainViewModel.mainState.collectAsState()
+
+    when (mainState) {
         MainUiState.Loading -> {
             MainScreenSkeleton()
         }
